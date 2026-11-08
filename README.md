@@ -201,7 +201,9 @@ _TODO: final test count and result._
 - **Email verification:** mail is logged, not sent. I would need to choose an SMTP setup (e.g. Mailpit locally); too much for 2 hours.
 - **Presigned S3 URLs** for direct downloads of large files.
 - **Inline viewing** of images and PDFs. The brief allows "viewed or downloaded"; I chose forced download because a file can then never run in the browser.
-- **Background job** to clean up orphaned files (a file can remain if an S3 delete fails after the database delete).
+- **Background job** to clean up orphaned files (a file can remain if an S3 delete fails after the database delete; such paths are already logged).
+- **Per-user storage quota** (uploads are rate-limited, but total storage per user is not capped yet).
+- **Explicit private visibility** on the S3 disk, in addition to the private bucket (anonymous access is verified to return 403).
 - **Virus scanning** of uploads.
 - **CI pipeline** running the tests against PostgreSQL.
 - _TODO: anything unfinished at the 2-hour mark._
@@ -306,7 +308,7 @@ Same routine as the skeleton: the agent presents a step, I review it, then I typ
 | ∥ | Codex: notes tests, written from the spec in parallel | ✅ all pass; attachment tests in progress |
 | 3 | Attachments: request, service, controller, upload form | ✅ real upload/download/delete verified on RustFS |
 | 3b | UX fixes after my own browser check: attach files on the note form, kit placeholders and misleading links removed | ✅ |
-| 4 | Tests green, smoke test, security review | _TODO_ |
+| 4 | Tests green, smoke test on the real stack, Codex security review + 2 fixes | ✅ 77 passed; no high-severity findings |
 | 5 | Docs | _TODO_ |
 
 **Caught by Codex's tests:** a non-owner sending an *invalid* edit got a validation error instead of 404, because Laravel validates the FormRequest before the controller's policy check. That revealed the note exists. Fixed: the FormRequest now runs the policy before validation. Details in [`AI_COLLABORATION.md`](AI_COLLABORATION.md).

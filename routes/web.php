@@ -20,14 +20,16 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 
     // Notes: the 7 CRUD routes (notes.index, notes.create, notes.store, ...).
-    Route::resource('notes', NoteController::class);
+    Route::resource('notes', NoteController::class)
+        ->middlewareFor(['store', 'update'], 'throttle:uploads');
 
     // Attachments are nested under their note. scopeBindings() makes Laravel
     // look the attachment up through $note->attachments(), so an attachment
     // of another note returns 404.
     Route::scopeBindings()->group(function () {
         Route::post('notes/{note}/attachments', [AttachmentController::class, 'store'])
-            ->name('notes.attachments.store');
+            ->name('notes.attachments.store')
+            ->middleware('throttle:uploads');
         Route::get('notes/{note}/attachments/{attachment}', [AttachmentController::class, 'download'])
             ->name('notes.attachments.download');
         Route::delete('notes/{note}/attachments/{attachment}', [AttachmentController::class, 'destroy'])

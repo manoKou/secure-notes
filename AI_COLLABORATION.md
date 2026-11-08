@@ -32,6 +32,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | 20:17 (clock) | Claude Code | Step 2: `NotePolicy`, `NoteRequest`, `NoteController`, note views, flash, sidebar link (reviewed first) | Views compile; Codex's tests run against it (see issues) |
 | 20:53 (clock) | Claude Code | Step 3: `AttachmentRequest` (authorize first), `AttachmentService`, `AttachmentController`, attachments UI (reviewed first) | 46 passed; real round trip on RustFS: random path, `../../` stripped from the name, forced download + nosniff, file removed on delete |
 | 21:12 (clock) | Claude Code | UX fixes I requested after a browser check: files on the note form, misleading kit sidebar links removed, Laravel placeholders replaced (name, icon, favicon, dashboard/welcome → notes) | 70 passed; 2 kit tests updated for the new redirects |
+| 21:31 (clock) | Claude Code | Review fixes: upload rate limiter, logging of failed storage deletes (reviewed first) | 77 passed; `route:list` shows the throttle on the 3 upload routes |
 | _TODO_ | | | |
 
 ## Issues caught in review
@@ -42,7 +43,13 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | Composer installed Livewire 4, but the starter kit needs Livewire 3 (profile page crashed) | Kit tests + manual check | Pinned Livewire to `3.*` |
 | Kit's `package-lock.json` had 13 known vulnerabilities (2 critical) | `npm audit` | `npm audit fix` (non-breaking), 0 left |
 | A non-owner sending an **invalid** update got a validation redirect (302) instead of 404: FormRequest validation runs *before* the controller's policy check, which reveals that the note exists | Codex's test (written from the spec) failed against Claude's step 2 | **Fixed** (with permission): `NoteRequest::authorize()` now runs `NotePolicy` before the rules; the duplicate check in `NoteController::update()` was removed. The test passes |
-| _TODO: issues from implementation, tests and Codex's security review_ | | |
+| **Security review (Codex, read-only):** no high-severity issues; all categories clean (auth, 404 rule incl. the new `files[]` path, validation, paths, headers, XSS, CSRF, mass assignment, error leakage) | Codex | See the 4 findings below |
+| Medium: no upload rate limit or per-user storage quota | Codex review | **Fixed (rate limit):** named `uploads` limiter, 20/min per user, on note store/update and attachment upload. Quota moved to Next steps (needs a product decision) |
+| Low: private visibility is implicit (relies on bucket default) | Codex review | **Documented, not changed:** smoke test confirmed anonymous access → 403; forcing an ACL on every upload risked breaking RustFS uploads late in the clock |
+| Low: if S3 delete fails after the row is deleted, the path is lost | Codex review | **Fixed (minimal):** failed deletes are logged with disk + path; a queued cleanup job stays in Next steps |
+| Low: no malware scanning of allowed files | Codex review | Already in "Next steps" |
+| Smoke test on the real stack: bucket and objects anonymous → 403; `/.env` → 404; guests redirected; a real Word `.docx` accepted, a hand-made zip renamed `.docx` rejected | Claude Code | Confirmed |
+| _TODO_ | | |
 
 ## Disagreements between agents
 

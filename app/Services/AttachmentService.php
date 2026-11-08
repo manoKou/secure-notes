@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Attachment;
 use App\Models\Note;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -79,7 +80,7 @@ class AttachmentService
     public function delete(Attachment $attachment): void
     {
         $attachment->delete();
-        Storage::disk($attachment->disk)->delete($attachment->path);
+        $this->deleteFile($attachment);
     }
 
     /**
@@ -91,7 +92,22 @@ class AttachmentService
     public function deleteAllFor(Note $note): void
     {
         foreach ($note->attachments as $attachment) {
-            Storage::disk($attachment->disk)->delete($attachment->path);
+            $this->deleteFile($attachment);
+        }
+    }
+
+    /**
+     * Remove a stored file. The database row is already gone at this point,
+     * so if storage fails we log the path: the file can still be cleaned up
+     * later instead of being lost track of (Codex review, L2).
+     */
+    private function deleteFile(Attachment $attachment): void
+    {
+        if (! Storage::disk($attachment->disk)->delete($attachment->path)) {
+            Log::warning('Attachment file could not be deleted from storage.', [
+                'disk' => $attachment->disk,
+                'path' => $attachment->path,
+            ]);
         }
     }
 }
