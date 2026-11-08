@@ -1,8 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/livewire-starter-kit",
+    "name": "manokou/secure-notes",
     "type": "project",
-    "description": "The official Laravel starter kit for Livewire.",
+    "description": "Private notes with file attachments: Laravel 12, PostgreSQL, S3-compatible storage.",
     "keywords": [
         "laravel",
         "framework"

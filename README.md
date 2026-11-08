@@ -219,13 +219,15 @@ Feature tests with **Pest**, on **SQLite in memory**, with `Storage::fake('s3')`
 
 This is mostly how the collaboration looks, in early steps:
 
-![alt text](docs/assets/image2.png)
+![Claude Code proposing three structure simplifications for my review](docs/assets/image2.png)
+
 ---
-![alt text](docs/assets/image3.png)
+
+![Claude Code reviewing Codex's questions about the test plan, with Codex's answer below](docs/assets/image3.png)
 
 I usually work with opencode and Codex. I use the "plan" functionality of opencode with the subscription-based, more expensive model, and rarely use the "build" functionality with the cheap or free models. Free/cheap agents build, smart and expensive agents only plan.
 
-For this project I'm jumping back into Claude Code, older versions of which I have tried before; claude now also has the "plan/build" separation, so I think I'm missing out, this project is a good excuse to jump back in. I use Claude for planning and Codex for tests and smoke/canary testing, which I find it does well. I decided not to use Opencode at this point, maybe I will at step 7.
+For this project I'm jumping back into Claude Code, older versions of which I have tried before; claude now also has the "plan/build" separation, so I think I'm missing out, this project is a good excuse to jump back in. I use Claude for planning and Codex for tests and smoke/canary testing, which I find it does well. I decided not to use Opencode at this point, maybe I will at step 7 (*edit*: I did not use it).
 
 I have an `AGENTS.md` boilerplate used in most projects. It states that agents are never allowed to edit any file, and that they answer my questions in a specific manner: mostly code, short answers, human-readable code only, and discussing a bug fix first instead of jumping straight to code.
 
@@ -239,7 +241,7 @@ I use [Obsidian](https://obsidian.md/) to create a canvas, to wireframe a flow c
 
 It looks like this: 
 
-![alt text](docs/assets/image4.png)
+![Project flow chart (Obsidian canvas)](docs/assets/image4.png)
 
 ## Step 3: Choosing the tech stack, installing dev dependencies
 
@@ -306,7 +308,7 @@ Same routine as the skeleton: the agent presents a step, I review it, then I typ
 |---|---|---|
 | 1 | Migrations, models, factories | ✅ migrated on PostgreSQL; relationships checked in tinker |
 | 2 | Notes: policy, request, controller, views, flash, sidebar link | ✅ (+ one fix, see below) |
-| ∥ | Codex: notes tests, written from the spec in parallel | ✅ all pass; attachment tests in progress |
+| ∥ | Codex: tests written from the spec in parallel | ✅ 54 tests, all passing |
 | 3 | Attachments: request, service, controller, upload form | ✅ real upload/download/delete verified on RustFS |
 | 3b | UX fixes after my own browser check: attach files on the note form, kit placeholders and misleading links removed | ✅ |
 | 4 | Tests green, smoke test on the real stack, Codex security review + 2 fixes | ✅ 77 passed; no high-severity findings |
