@@ -7,8 +7,8 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 
 | Agent | Responsibility |
 |---|---|
-| **Claude Code** | Planning, environment setup (with permission), file structure, proposes implementation in small chunks |
-| **Codex** | Writes the feature tests from the spec, not from my code; smoke tests; security review |
+| **Claude Code** | Planning, environment setup (with permission), file structure, proposes implementation in small chunks; smoke test on the real stack |
+| **Codex** | Writes the feature tests from the spec, not from my code; security review; questioned the spec where it was unclear |
 | **Me** | Delegate, review every chunk before it is written, resolve disagreements, own the final quality |
 
 ## How work was integrated

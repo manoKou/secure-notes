@@ -108,7 +108,7 @@ Tests use SQLite in memory and a fake S3 disk, so they need no database or stora
 Every request follows the same path:
 
 ```
-Route (auth) → FormRequest (validate) → Policy (authorize) → Controller → Service → Model / S3 → Response
+Route (auth) → FormRequest (authorize via Policy, then validate) → Controller → Service → Model / S3 → Response
 ```
 
 - **Controllers are thin.** They connect the pieces and return a response; no business logic.
@@ -179,7 +179,7 @@ Feature tests with **Pest**, on **SQLite in memory**, with `Storage::fake('s3')`
 
 **Trade-off:** SQLite is not PostgreSQL (e.g. `LIKE` case sensitivity, looser types). It keeps the tests fast and runnable right after cloning. In a real project I would run the suite against PostgreSQL in CI.
 
-**Result:** 80 tests passing: 27 from the starter kit, 53 written by Codex from the spec. GitHub Actions runs them on every push (fixed in `48c0dee`; earlier commits show ❌).
+**Result:** 81 tests passing: 27 from the starter kit, 54 written by Codex from the spec. GitHub Actions runs them on every push (fixed in `48c0dee`; earlier commits show ❌).
 
 ---
 
@@ -187,8 +187,8 @@ Feature tests with **Pest**, on **SQLite in memory**, with `Storage::fake('s3')`
 
 | Who | Role in this project |
 |---|---|
-| **Claude Code** | Planning, environment setup (with explicit permission), file structure, proposing implementation in small chunks |
-| **Codex** | Writing tests independently from the spec; smoke/canary testing; security review of the implementation |
+| **Claude Code** | Planning, environment setup (with explicit permission), file structure, proposing implementation in small chunks; smoke test on the real stack |
+| **Codex** | Writing tests independently from the spec; security review of the implementation |
 | **Me** | Delegating tasks, reviewing every chunk, resolving disagreements between agents, owning the final quality |
 
 - **Agents do not write code into the project by default.** They present code in small chunks; I review it and add it.

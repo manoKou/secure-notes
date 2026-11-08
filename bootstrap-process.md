@@ -86,7 +86,7 @@ attachments  id (ULID), note_id → notes (cascade delete),
 | Agent | Responsibility |
 |---|---|
 | **Claude Code** | Planning, environment setup (with explicit permission), file structure, proposing implementation in small chunks |
-| **Codex** | Proposes tests independently from the spec; smoke/canary testing; adversarial security review of the implementation |
+| **Codex** | Proposes tests independently from the spec; adversarial security review of the implementation |
 | **Me (developer)** | Delegate tasks, review every chunk, resolve disagreements between agents, own the final quality |
 
 ### Code ownership policy
