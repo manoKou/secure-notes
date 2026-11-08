@@ -35,6 +35,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | 21:31 (clock) | Claude Code | Review fixes: upload rate limiter, logging of failed storage deletes (reviewed first) | 77 passed; `route:list` shows the throttle on the 3 upload routes |
 | 21:36 (clock) | Claude Code | CI fix: tests.yml runs Pest on PHP 8.3 | Green on GitHub |
 | 21:50 (extension) | Claude Code | Gap check against the brief: README setup steps, missing-file download (500 → flash error), branded error pages (reviewed first) | 77 passed; missing-file redirect and 404 page verified |
+| 21:59 (extension) | Claude Code | Fix: account deletion removes the user's files (reviewed first) | 80 passed; real delete on RustFS removed the file |
 
 ## Issues caught in review
 
@@ -52,6 +53,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | Smoke test on the real stack: bucket and objects anonymous → 403; `/.env` → 404; guests redirected; a real Word `.docx` accepted, a hand-made zip renamed `.docx` rejected | Claude Code | Confirmed |
 | Kit's CI ran PHPUnit on a Pest suite | GitHub Actions log | Fixed in tests.yml |
 | Downloading an attachment whose stored file is missing crashed with a 500 | Claude Code, gap check against the brief | Checked before streaming; user gets a flash error |
+| Deleting an account (kit's Settings page) left the user's files in S3: the DB cascade removes rows, not files | Claude Code, final review | `User::booted()` loads the files before the delete and removes them after it; verified on RustFS |
 
 ## Disagreements between agents
 
