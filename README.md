@@ -303,8 +303,8 @@ Same routine as the skeleton: the agent presents a step, I review it, then I typ
 |---|---|---|
 | 1 | Migrations, models, factories | ✅ migrated on PostgreSQL; relationships checked in tinker |
 | 2 | Notes: policy, request, controller, views, flash, sidebar link | ✅ (+ one fix, see below) |
-| ∥ | Codex: notes tests, written from the spec in parallel | ✅ 18 of 19 pass (the last needs step 3) |
-| 3 | Attachments | _in progress_ |
+| ∥ | Codex: notes tests, written from the spec in parallel | ✅ all pass; attachment tests in progress |
+| 3 | Attachments: request, service, controller, upload form | ✅ real upload/download/delete verified on RustFS |
 | 4 | Tests green, smoke test, security review | _TODO_ |
 | 5 | Docs | _TODO_ |
 

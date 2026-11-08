@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Validates a single file upload.
@@ -13,11 +14,14 @@ use Illuminate\Foundation\Http\FormRequest;
 class AttachmentRequest extends FormRequest
 {
     /**
-     * Always true: ownership of the target note is checked by NotePolicy.
+     * The user must own the note. Runs before rules(), so a non-owner gets
+     * 404, not "file too large" (same lesson as NoteRequest).
      */
     public function authorize(): bool
     {
-        // TODO
+        Gate::authorize('update', $this->route('note'));
+
+        return true;
     }
 
     /**
@@ -27,6 +31,13 @@ class AttachmentRequest extends FormRequest
      */
     public function rules(): array
     {
-        // TODO: file → required, file, mimes from config, max from config
+        return [
+            'file' => [
+                'required',
+                'file',
+                'mimes:'.implode(',', config('attachments.mimes')),
+                'max:'.config('attachments.max_kb'),
+            ],
+        ];
     }
 }

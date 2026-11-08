@@ -5,7 +5,11 @@ namespace App\Services;
 use App\Models\Attachment;
 use App\Models\Note;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 /**
  * Everything that touches file storage, in one place.
@@ -16,6 +20,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class AttachmentService
 {
+    /** All new files go to the private S3 disk. */
+    private const DISK = 's3';
+
     /**
      * Save an uploaded file to the private bucket and record it on the note.
      *
@@ -24,7 +31,28 @@ class AttachmentService
      */
     public function store(Note $note, UploadedFile $file): Attachment
     {
-        // TODO: put file on s3 under a random path, create the attachments row
+        // store() picks a random 40-char name + an extension detected from the
+        // content, so the client's filename never becomes part of the path.
+        $path = $file->store("notes/{$note->id}", self::DISK);
+
+        if ($path === false) {
+            throw new RuntimeException('Could not write the file to storage.');
+        }
+
+        try {
+            return $note->attachments()->create([
+                'disk' => self::DISK,
+                'path' => $path,
+                'original_name' => Str::limit($file->getClientOriginalName(), 250, ''),
+                'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+            ]);
+        } catch (Throwable $e) {
+            // The row failed: remove the file so it does not become an orphan.
+            Storage::disk(self::DISK)->delete($path);
+
+            throw $e;
+        }
     }
 
     /**
@@ -35,7 +63,14 @@ class AttachmentService
      */
     public function download(Attachment $attachment): StreamedResponse
     {
-        // TODO: stream from s3 with the original name and safe headers
+        return Storage::disk($attachment->disk)->download(
+            $attachment->path,
+            $attachment->original_name,
+            [
+                'Content-Type' => $attachment->mime_type,
+                'X-Content-Type-Options' => 'nosniff',
+            ],
+        );
     }
 
     /**
@@ -43,7 +78,8 @@ class AttachmentService
      */
     public function delete(Attachment $attachment): void
     {
-        // TODO: delete the row, then the file
+        $attachment->delete();
+        Storage::disk($attachment->disk)->delete($attachment->path);
     }
 
     /**
@@ -54,6 +90,8 @@ class AttachmentService
      */
     public function deleteAllFor(Note $note): void
     {
-        // TODO: remove every stored file of this note
+        foreach ($note->attachments as $attachment) {
+            Storage::disk($attachment->disk)->delete($attachment->path);
+        }
     }
 }

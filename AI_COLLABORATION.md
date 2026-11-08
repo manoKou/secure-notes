@@ -30,6 +30,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | Before the clock | Claude Code | Skeleton Batch 5: 4 feature test files with `->todo()` tests from the spec (code reviewed first) | Written exactly as reviewed; Codex replaces the todos |
 | 20:08 (clock) | Claude Code | Step 1: migrations, model relationships + `$fillable`, factories (reviewed first; I had already typed the notes columns myself) | Migrated on PostgreSQL; relationships checked in tinker; 27 passed, 19 todos |
 | 20:17 (clock) | Claude Code | Step 2: `NotePolicy`, `NoteRequest`, `NoteController`, note views, flash, sidebar link (reviewed first) | Views compile; Codex's tests run against it (see issues) |
+| 20:53 (clock) | Claude Code | Step 3: `AttachmentRequest` (authorize first), `AttachmentService`, `AttachmentController`, attachments UI (reviewed first) | 46 passed; real round trip on RustFS: random path, `../../` stripped from the name, forced download + nosniff, file removed on delete |
 | _TODO_ | | | |
 
 ## Issues caught in review

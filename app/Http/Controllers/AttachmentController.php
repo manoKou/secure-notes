@@ -7,7 +7,9 @@ use App\Models\Attachment;
 use App\Models\Note;
 use App\Services\AttachmentService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 /**
  * Upload, download and delete files of a note.
@@ -30,7 +32,16 @@ class AttachmentController extends Controller
      */
     public function store(AttachmentRequest $request, Note $note): RedirectResponse
     {
-        // TODO: authorize update on the note, store via service, redirect with flash
+        // Ownership was already checked in AttachmentRequest (404 before validation).
+        try {
+            $this->attachments->store($note, $request->file('file'));
+        } catch (Throwable $e) {
+            report($e); // logged for us, not shown to the user
+
+            return back()->with('error', __('The file could not be uploaded. Please try again.'));
+        }
+
+        return redirect()->route('notes.show', $note)->with('success', __('File uploaded.'));
     }
 
     /**
@@ -38,7 +49,9 @@ class AttachmentController extends Controller
      */
     public function download(Note $note, Attachment $attachment): StreamedResponse
     {
-        // TODO: authorize view on the note, return the service's download
+        Gate::authorize('view', $note);
+
+        return $this->attachments->download($attachment);
     }
 
     /**
@@ -46,6 +59,9 @@ class AttachmentController extends Controller
      */
     public function destroy(Note $note, Attachment $attachment): RedirectResponse
     {
-        // TODO: authorize update on the note, delete via service, redirect with flash
+        Gate::authorize('update', $note);
+        $this->attachments->delete($attachment);
+
+        return redirect()->route('notes.show', $note)->with('success', __('File deleted.'));
     }
 }
