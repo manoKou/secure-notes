@@ -2,6 +2,7 @@
 
 use App\Models\Note;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 /**
  * Guests are sent to login. Foreign notes always return 404, not 403.
@@ -107,4 +108,15 @@ it('returns 404 when deleting another users note', function () {
         'id' => $note->id,
         'user_id' => $owner->id,
     ]);
+});
+
+it('renders the custom 404 page for an unknown note', function () {
+    $user = User::factory()->create();
+    $unknownNoteId = (string) Str::ulid();
+
+    $this
+        ->actingAs($user)
+        ->get(route('notes.show', $unknownNoteId))
+        ->assertNotFound()
+        ->assertSeeText('Back to my notes');
 });

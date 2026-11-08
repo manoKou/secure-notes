@@ -316,3 +316,32 @@ it('deletes an attachment and its stored file', function () {
 
     Storage::disk('s3')->assertMissing($attachment->path);
 });
+
+it('redirects the owner with an error when the stored file is missing', function () {
+    $user = User::factory()->create();
+    $note = Note::factory()->for($user)->create();
+
+    $attachment = Attachment::factory()->for($note)->create([
+        'disk' => 's3',
+        'path' => "notes/{$note->id}/missing.txt",
+        'original_name' => 'missing.txt',
+        'mime_type' => 'text/plain',
+        'size' => 100,
+    ]);
+
+    Storage::disk('s3')->assertMissing($attachment->path);
+
+    $response = $this->actingAs($user)->get(
+        route('notes.attachments.download', [$note, $attachment]),
+    );
+
+    $response
+        ->assertRedirect(route('notes.show', $note))
+        ->assertSessionHas('error')
+        ->assertSessionMissing('success');
+
+    $this->assertDatabaseHas('attachments', [
+        'id' => $attachment->id,
+        'note_id' => $note->id,
+    ]);
+});

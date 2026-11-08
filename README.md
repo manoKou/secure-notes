@@ -179,7 +179,7 @@ Feature tests with **Pest**, on **SQLite in memory**, with `Storage::fake('s3')`
 
 **Trade-off:** SQLite is not PostgreSQL (e.g. `LIKE` case sensitivity, looser types). It keeps the tests fast and runnable right after cloning. In a real project I would run the suite against PostgreSQL in CI.
 
-**Result:** 77 tests passing: 27 from the starter kit, 50 written by Codex from the spec. GitHub Actions runs them on every push (fixed in `48c0dee`; earlier commits show ❌).
+**Result:** 80 tests passing: 27 from the starter kit, 53 written by Codex from the spec. GitHub Actions runs them on every push (fixed in `48c0dee`; earlier commits show ❌).
 
 ---
 
