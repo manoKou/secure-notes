@@ -29,7 +29,8 @@ class NoteRequest extends FormRequest
     }
 
     /**
-     * Title required (max 255 chars); body optional (max 10,000 chars).
+     * Title required (max 255 chars); body optional (max 10,000 chars);
+     * optional files, each checked like a single upload.
      *
      * @return array<string, mixed>
      */
@@ -38,6 +39,8 @@ class NoteRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'body' => ['nullable', 'string', 'max:10000'],
+            'files' => ['nullable', 'array', 'max:'.config('attachments.max_files')],
+            'files.*' => AttachmentRequest::fileRules(),
         ];
     }
 }

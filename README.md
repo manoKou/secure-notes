@@ -305,6 +305,7 @@ Same routine as the skeleton: the agent presents a step, I review it, then I typ
 | 2 | Notes: policy, request, controller, views, flash, sidebar link | ✅ (+ one fix, see below) |
 | ∥ | Codex: notes tests, written from the spec in parallel | ✅ all pass; attachment tests in progress |
 | 3 | Attachments: request, service, controller, upload form | ✅ real upload/download/delete verified on RustFS |
+| 3b | UX fixes after my own browser check: attach files on the note form, kit placeholders and misleading links removed | ✅ |
 | 4 | Tests green, smoke test, security review | _TODO_ |
 | 5 | Docs | _TODO_ |
 

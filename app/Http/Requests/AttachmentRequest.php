@@ -32,12 +32,22 @@ class AttachmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => [
-                'required',
-                'file',
-                'mimes:'.implode(',', config('attachments.mimes')),
-                'max:'.config('attachments.max_kb'),
-            ],
+            'file' => ['required', ...self::fileRules()],
+        ];
+    }
+
+    /**
+     * The rules for a single uploaded file, reused by NoteRequest
+     * so the note form and the upload form can never disagree.
+     *
+     * @return array<int, string>
+     */
+    public static function fileRules(): array
+    {
+        return [
+            'file',
+            'mimes:'.implode(',', config('attachments.mimes')),
+            'max:'.config('attachments.max_kb'),
         ];
     }
 }

@@ -5,13 +5,12 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\NoteController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// No marketing page: "/" goes to the notes (guests are sent on to login).
+Route::redirect('/', '/notes')->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// The kit's login/register code redirects to route('dashboard'); keep the
+// name working, but our app's home is the notes list.
+Route::redirect('dashboard', '/notes')->middleware('auth')->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

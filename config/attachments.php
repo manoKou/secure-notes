@@ -16,4 +16,7 @@ return [
     // Maximum size in kilobytes (Laravel's file "max" rule uses KB). 10240 = 10 MB.
     'max_kb' => 10240,
 
+    // Maximum number of files per note form submit.
+    'max_files' => 5,
+
 ];

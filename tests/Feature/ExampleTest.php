@@ -2,8 +2,6 @@
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-test('returns a successful response', function () {
-    $response = $this->get('/');
-
-    $response->assertStatus(200);
+test('home redirects to the notes', function () {
+    $this->get('/')->assertRedirect('/notes');
 });

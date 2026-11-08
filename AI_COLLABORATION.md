@@ -31,6 +31,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | 20:08 (clock) | Claude Code | Step 1: migrations, model relationships + `$fillable`, factories (reviewed first; I had already typed the notes columns myself) | Migrated on PostgreSQL; relationships checked in tinker; 27 passed, 19 todos |
 | 20:17 (clock) | Claude Code | Step 2: `NotePolicy`, `NoteRequest`, `NoteController`, note views, flash, sidebar link (reviewed first) | Views compile; Codex's tests run against it (see issues) |
 | 20:53 (clock) | Claude Code | Step 3: `AttachmentRequest` (authorize first), `AttachmentService`, `AttachmentController`, attachments UI (reviewed first) | 46 passed; real round trip on RustFS: random path, `../../` stripped from the name, forced download + nosniff, file removed on delete |
+| 21:12 (clock) | Claude Code | UX fixes I requested after a browser check: files on the note form, misleading kit sidebar links removed, Laravel placeholders replaced (name, icon, favicon, dashboard/welcome → notes) | 70 passed; 2 kit tests updated for the new redirects |
 | _TODO_ | | | |
 
 ## Issues caught in review
