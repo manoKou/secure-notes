@@ -41,14 +41,14 @@ This guide is mostly written by hand as the project progresses; I think it is wo
 
 ### Prerequisites
 
-- PHP 8.3 with the `pdo_pgsql` extension
+- PHP 8.3 with the `pdo_pgsql` extension, and in `php.ini`: `upload_max_filesize = 12M`, `post_max_size = 55M` (PHP's defaults are below the app's 10 MB limit)
 - Composer 2
 - Node.js 20.19+ (I use 22 LTS)
 - PostgreSQL 16 (an empty database and a user that owns it)
 - Any S3-compatible storage with a **private** bucket (I use RustFS; AWS S3 works with the same code)
 
 > My own setup: WampServer 3.4.0 on Windows (PHP 8.3.28), PostgreSQL 16 as a Windows service, RustFS 1.0.4 bound to `127.0.0.1`.
-> The step-by-step commands I used are in [`bootstrap-process.md`](bootstrap-process.md).
+> The step-by-step commands I used, including creating the database user and the bucket, are in [`bootstrap-process.md`](bootstrap-process.md#setup-commands-do-it-yourself).
 
 ### Steps
 
@@ -58,6 +58,7 @@ cd secure-notes
 
 composer install
 npm install
+npm run build                 # front-end assets (the tests need them too)
 
 cp .env.example .env          # PowerShell: copy .env.example .env
 php artisan key:generate
@@ -310,5 +311,6 @@ Same routine as the skeleton: the agent presents a step, I review it, then I typ
 | 3b | UX fixes after my own browser check: attach files on the note form, kit placeholders and misleading links removed | ✅ |
 | 4 | Tests green, smoke test on the real stack, Codex security review + 2 fixes | ✅ 77 passed; no high-severity findings |
 | 5 | Docs | ✅ |
+| 6 | Gap check against the brief: README setup, missing-file download, error pages | ✅ |
 
 **Caught by Codex's tests:** a non-owner sending an *invalid* edit got a validation error instead of 404, because Laravel validates the FormRequest before the controller's policy check. That revealed the note exists. Fixed: the FormRequest now runs the policy before validation. Details in [`AI_COLLABORATION.md`](AI_COLLABORATION.md).

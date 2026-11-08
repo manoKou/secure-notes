@@ -34,6 +34,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | 21:12 (clock) | Claude Code | UX fixes I requested after a browser check: files on the note form, misleading kit sidebar links removed, Laravel placeholders replaced (name, icon, favicon, dashboard/welcome → notes) | 70 passed; 2 kit tests updated for the new redirects |
 | 21:31 (clock) | Claude Code | Review fixes: upload rate limiter, logging of failed storage deletes (reviewed first) | 77 passed; `route:list` shows the throttle on the 3 upload routes |
 | 21:36 (clock) | Claude Code | CI fix: tests.yml runs Pest on PHP 8.3 | Green on GitHub |
+| 21:50 (extension) | Claude Code | Gap check against the brief: README setup steps, missing-file download (500 → flash error), branded error pages (reviewed first) | 77 passed; missing-file redirect and 404 page verified |
 
 ## Issues caught in review
 
@@ -50,6 +51,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | Low: no malware scanning of allowed files | Codex review | Already in "Next steps" |
 | Smoke test on the real stack: bucket and objects anonymous → 403; `/.env` → 404; guests redirected; a real Word `.docx` accepted, a hand-made zip renamed `.docx` rejected | Claude Code | Confirmed |
 | Kit's CI ran PHPUnit on a Pest suite | GitHub Actions log | Fixed in tests.yml |
+| Downloading an attachment whose stored file is missing crashed with a 500 | Claude Code, gap check against the brief | Checked before streaming; user gets a flash error |
 
 ## Disagreements between agents
 

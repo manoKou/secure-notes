@@ -47,11 +47,18 @@ class AttachmentController extends Controller
     /**
      * Download a file of a note I own (forced download, never inline).
      */
-    public function download(Note $note, Attachment $attachment): StreamedResponse
+    public function download(Note $note, Attachment $attachment): StreamedResponse|RedirectResponse
     {
         Gate::authorize('view', $note);
 
-        return $this->attachments->download($attachment);
+        try {
+            return $this->attachments->download($attachment);
+        } catch (Throwable $e) {
+            report($e); // the path is in the log for us
+
+            return redirect()->route('notes.show', $note)
+                ->with('error', __('This file could not be downloaded. It may be missing, or storage is unavailable.'));
+        }
     }
 
     /**

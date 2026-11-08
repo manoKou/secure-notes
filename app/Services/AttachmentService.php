@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Attachment;
 use App\Models\Note;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -64,6 +65,11 @@ class AttachmentService
      */
     public function download(Attachment $attachment): StreamedResponse
     {
+        // A missing object would otherwise crash while building the response (500).
+        if (! Storage::disk($attachment->disk)->exists($attachment->path)) {
+            throw new FileNotFoundException("Attachment file missing: {$attachment->path}");
+        }
+
         return Storage::disk($attachment->disk)->download(
             $attachment->path,
             $attachment->original_name,
