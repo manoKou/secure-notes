@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Livewire\Volt\Volt;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\NoteController;
+use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 // No marketing page: "/" goes to the notes (guests are sent on to login).
 Route::redirect('/', '/notes')->name('home');

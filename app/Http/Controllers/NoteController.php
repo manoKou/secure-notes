@@ -24,9 +24,7 @@ class NoteController extends Controller
      * AttachmentService is injected by Laravel; needed when a note
      * is deleted, so its files are deleted too.
      */
-    public function __construct(private readonly AttachmentService $attachments)
-    {
-    }
+    public function __construct(private readonly AttachmentService $attachments) {}
 
     /**
      * List my notes, newest first. Queried through the user,

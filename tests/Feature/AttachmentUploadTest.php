@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
  * Uploading files to my own note. Allowed types and maximum size come
  * from config/attachments.php. Real storage is replaced by a fake S3 disk.
  */
-
 beforeEach(function () {
     Storage::fake('s3');
 });

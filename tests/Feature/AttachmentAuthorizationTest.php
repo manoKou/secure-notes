@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
  * Attachments are reachable only through their own note and only by
  * that note's owner. Unauthorized requests return 404.
  */
-
 beforeEach(function () {
     Storage::fake('s3');
 });

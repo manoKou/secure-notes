@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 /**
  * Guests are sent to login. Foreign notes always return 404, not 403.
  */
-
 it('redirects guests to login from every note route', function () {
     $note = Note::factory()->create();
 

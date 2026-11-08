@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Files submitted directly through the note create and edit forms.
  */
-
 beforeEach(function () {
     Storage::fake('s3');
 });
@@ -251,7 +250,7 @@ it('returns 404 when a non-owner updates a note with files', function () {
 it('keeps the created note and reports an error when storage fails', function () {
     $user = User::factory()->create();
 
-    $service = \Mockery::mock(AttachmentService::class)
+    $service = Mockery::mock(AttachmentService::class)
         ->makePartial();
 
     $service

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Note CRUD for the owner. Authorization is tested separately.
  */
-
 it('lists only my notes', function () {
     $user = User::factory()->create();
     $otherUser = User::factory()->create();

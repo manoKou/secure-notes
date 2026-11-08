@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Attachment;
 use App\Models\Note;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Attachment>

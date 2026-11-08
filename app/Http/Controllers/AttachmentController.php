@@ -23,9 +23,7 @@ class AttachmentController extends Controller
     /**
      * All storage work is delegated to AttachmentService.
      */
-    public function __construct(private readonly AttachmentService $attachments)
-    {
-    }
+    public function __construct(private readonly AttachmentService $attachments) {}
 
     /**
      * Upload a file to a note I own.
