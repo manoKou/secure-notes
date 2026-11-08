@@ -39,7 +39,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | Serving the app as `localhost/secure-notes` through Apache would expose `.env` | Claude Code (I proposed it) | Serve only `public/` via `composer run dev` |
 | Composer installed Livewire 4, but the starter kit needs Livewire 3 (profile page crashed) | Kit tests + manual check | Pinned Livewire to `3.*` |
 | Kit's `package-lock.json` had 13 known vulnerabilities (2 critical) | `npm audit` | `npm audit fix` (non-breaking), 0 left |
-| A non-owner sending an **invalid** update got a validation redirect (302) instead of 404: FormRequest validation runs *before* the controller's policy check, which reveals that the note exists | Codex's test (written from the spec) failed against Claude's step 2 | _pending: authorize in the FormRequest before validating_ |
+| A non-owner sending an **invalid** update got a validation redirect (302) instead of 404: FormRequest validation runs *before* the controller's policy check, which reveals that the note exists | Codex's test (written from the spec) failed against Claude's step 2 | **Fixed** (with permission): `NoteRequest::authorize()` now runs `NotePolicy` before the rules; the duplicate check in `NoteController::update()` was removed. The test passes |
 | _TODO: issues from implementation, tests and Codex's security review_ | | |
 
 ## Disagreements between agents

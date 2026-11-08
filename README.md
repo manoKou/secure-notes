@@ -302,10 +302,10 @@ Same routine as the skeleton: the agent presents a step, I review it, then I typ
 | # | Step | Status |
 |---|---|---|
 | 1 | Migrations, models, factories | ✅ migrated on PostgreSQL; relationships checked in tinker |
-| 2 | Notes: policy, request, controller, views, flash, sidebar link | ✅ (one fix pending, see below) |
-| ∥ | Codex: notes tests, written from the spec in parallel | ✅ 17 of 19 pass |
+| 2 | Notes: policy, request, controller, views, flash, sidebar link | ✅ (+ one fix, see below) |
+| ∥ | Codex: notes tests, written from the spec in parallel | ✅ 18 of 19 pass (the last needs step 3) |
 | 3 | Attachments | _in progress_ |
 | 4 | Tests green, smoke test, security review | _TODO_ |
 | 5 | Docs | _TODO_ |
 
-**Caught by Codex's tests:** a non-owner sending an *invalid* edit got a validation error instead of 404, because Laravel validates the FormRequest before the controller's policy check. That revealed the note exists. Fix: authorize inside the FormRequest, before validation. Details in [`AI_COLLABORATION.md`](AI_COLLABORATION.md).
+**Caught by Codex's tests:** a non-owner sending an *invalid* edit got a validation error instead of 404, because Laravel validates the FormRequest before the controller's policy check. That revealed the note exists. Fixed: the FormRequest now runs the policy before validation. Details in [`AI_COLLABORATION.md`](AI_COLLABORATION.md).

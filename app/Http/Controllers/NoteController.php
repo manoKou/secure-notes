@@ -84,7 +84,6 @@ class NoteController extends Controller
      */
     public function update(NoteRequest $request, Note $note): RedirectResponse
     {
-        Gate::authorize('update', $note);
         $note->update($request->validated());
 
         return redirect()->route('notes.show', $note)->with('success', __('Note saved.'));

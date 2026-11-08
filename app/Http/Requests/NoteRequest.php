@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Validates the note form, for both create and edit.
@@ -13,11 +14,17 @@ use Illuminate\Foundation\Http\FormRequest;
 class NoteRequest extends FormRequest
 {
     /**
-     * Always true: ownership is checked by NotePolicy in the controller,
-     * so authorization lives in one place only.
+     * Editing: the user must own the note. This runs before rules(), so a
+     * non-owner gets 404 even with invalid input. Creating: always allowed.
      */
     public function authorize(): bool
     {
+        $note = $this->route('note');
+
+        if ($note !== null) {
+            Gate::authorize('update', $note); // NotePolicy → 404 for non-owners
+        }
+
         return true;
     }
 
