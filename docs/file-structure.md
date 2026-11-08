@@ -13,7 +13,7 @@ secure-notes/
 │   │   │   ├── 🆕 NoteController.php        index, create, store, show, edit, update, destroy
 │   │   │   └── 🆕 AttachmentController.php  store, download, destroy
 │   │   └── Requests/
-│   │       ├── 🆕 NoteRequest.php           title required max 255, body optional max 10,000 (create + edit)
+│   │       ├── 🆕 NoteRequest.php           title required max 255, body optional max 10,000, optional files[] (create + edit)
 │   │       └── 🆕 AttachmentRequest.php     validation rules for uploads (type, size)
 │   ├── Models/
 │   │   ├── ✏️ User.php                      + notes() relationship
@@ -25,7 +25,7 @@ secure-notes/
 │       └── 🆕 AttachmentService.php         store, download, delete, deleteAllFor(note)
 │
 ├── config/
-│   └── 🆕 attachments.php                   allowed file types + max size (one place to change)
+│   └── 🆕 attachments.php                   allowed file types, max size, max files per form (one place to change)
 │
 ├── database/
 │   ├── migrations/
@@ -74,10 +74,10 @@ All routes require login (`auth` middleware).
 |---|---|---|---|
 | GET | `/notes` | `NoteController@index` | My notes |
 | GET | `/notes/create` | `NoteController@create` | New-note form |
-| POST | `/notes` | `NoteController@store` | Save new note |
+| POST | `/notes` | `NoteController@store` | Save new note, plus optional `files[]` (multipart) |
 | GET | `/notes/{note}` | `NoteController@show` | View note + attachments |
 | GET | `/notes/{note}/edit` | `NoteController@edit` | Edit form |
-| PUT | `/notes/{note}` | `NoteController@update` | Save changes |
+| PUT | `/notes/{note}` | `NoteController@update` | Save changes, plus optional new `files[]` |
 | DELETE | `/notes/{note}` | `NoteController@destroy` | Delete note **and its files** |
 | POST | `/notes/{note}/attachments` | `AttachmentController@store` | Upload |
 | GET | `/notes/{note}/attachments/{attachment}` | `AttachmentController@download` | Download (after policy check) |
@@ -88,3 +88,4 @@ All routes require login (`auth` middleware).
 1. **One policy, not two.** "May I touch this attachment?" is always "is its note mine?". `NotePolicy` answers both; scoped route bindings guarantee the attachment belongs to that note. One source of truth for ownership.
 2. **One `NoteRequest`, not Store + Update.** Create and edit use identical rules; two copies would drift apart.
 3. **`config/attachments.php`.** Allowed types and max size live in one place, used by both validation and the upload form hint, so they can never disagree.
+4. **Files on the note form (added during implementation).** Create and edit accept up to `max_files` files (`files[]`), validated with the same rules as the single upload (`AttachmentRequest::fileRules()`). All files are validated **before** the note is saved; the note is saved first, then the files. If storage fails midway, the note is kept and the user sees an error (not all-or-nothing, by design). The single upload on the note page stays.

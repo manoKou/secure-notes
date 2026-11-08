@@ -63,4 +63,10 @@ Asked to plan its tests from the docs, Codex flagged 8 points. Claude Code revie
 
 Also adopted: tests read size and types from `config/attachments.php` instead of hard-coding 10 MB.
 
+### Codex pushed back on "files on the note form"
+
+After my browser check I asked for files to be attachable directly on the create/edit form. Codex, working from the documented contract, advised against it for a 2-hour assessment: one upload endpoint was simpler, and a combined submit needs rollback rules. Fair point: the spec docs had not been updated yet.
+
+**Decision (mine):** keep the feature. Uploading only after saving was a poor user experience. I updated the spec (`docs/file-structure.md`), defined the failure behavior explicitly (validate everything first; keep the note if storage fails midway, show an error), and asked Codex for tests covering exactly those rules.
+
 _TODO: disagreements during implementation._
