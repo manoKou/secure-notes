@@ -67,7 +67,7 @@ attachments  id (ULID), note_id → notes (cascade delete),
 - **Thin controllers.** Each controller method does: validate (FormRequest) → authorize (Policy) → act → respond.
 - **`AttachmentService`**, injected through the constructor, owns storing and deleting files. Controllers don't touch `Storage` directly. This keeps file handling in one place and makes it easy to test.
 - **No repository layer.** Eloquent already is the data-access abstraction; another layer would be complexity without benefit at this scale.
-- **Deleting a note:** database rows are removed in a transaction, and the S3 objects are deleted after commit. If an S3 delete fails, the worst case is an orphaned file, never a broken database record. (Next step: a cleanup job.)
+- **Deleting a note:** one `DELETE` removes the note and its attachment rows (cascade, atomic), then the S3 objects are deleted. If an S3 delete fails, the worst case is an orphaned file, never a broken database record. (Next step: a cleanup job.)
 - **Downloads go through the app, not presigned URLs.** Every download passes the policy. Presigned short-lived URLs are the scaling improvement for large files and high traffic.
 
 ## 6. Testing

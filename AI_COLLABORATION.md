@@ -33,7 +33,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | 20:53 (clock) | Claude Code | Step 3: `AttachmentRequest` (authorize first), `AttachmentService`, `AttachmentController`, attachments UI (reviewed first) | 46 passed; real round trip on RustFS: random path, `../../` stripped from the name, forced download + nosniff, file removed on delete |
 | 21:12 (clock) | Claude Code | UX fixes I requested after a browser check: files on the note form, misleading kit sidebar links removed, Laravel placeholders replaced (name, icon, favicon, dashboard/welcome → notes) | 70 passed; 2 kit tests updated for the new redirects |
 | 21:31 (clock) | Claude Code | Review fixes: upload rate limiter, logging of failed storage deletes (reviewed first) | 77 passed; `route:list` shows the throttle on the 3 upload routes |
-| _TODO_ | | | |
+| 21:36 (clock) | Claude Code | CI fix: tests.yml runs Pest on PHP 8.3 | Green on GitHub |
 
 ## Issues caught in review
 
@@ -49,7 +49,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | Low: if S3 delete fails after the row is deleted, the path is lost | Codex review | **Fixed (minimal):** failed deletes are logged with disk + path; a queued cleanup job stays in Next steps |
 | Low: no malware scanning of allowed files | Codex review | Already in "Next steps" |
 | Smoke test on the real stack: bucket and objects anonymous → 403; `/.env` → 404; guests redirected; a real Word `.docx` accepted, a hand-made zip renamed `.docx` rejected | Claude Code | Confirmed |
-| _TODO_ | | |
+| Kit's CI ran PHPUnit on a Pest suite | GitHub Actions log | Fixed in tests.yml |
 
 ## Disagreements between agents
 
@@ -76,4 +76,3 @@ After my browser check I asked for files to be attachable directly on the create
 
 **Decision (mine):** keep the feature. Uploading only after saving was a poor user experience. I updated the spec (`docs/file-structure.md`), defined the failure behavior explicitly (validate everything first; keep the note if storage fails midway, show an error), and asked Codex for tests covering exactly those rules.
 
-_TODO: disagreements during implementation._

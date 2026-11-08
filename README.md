@@ -33,7 +33,7 @@ The README is split in two parts:
 
 This guide is mostly written by hand as the project progresses; I think it is worth the time investment.
 
-**Time:** environment setup, planning and the empty skeleton (Steps 1–4 and the preparation part of Step 5) were prepared beforehand. The 2-hour clock starts right after the skeleton commit (2026-11-08, 19:48 EET) and covers implementation, tests, review and docs. _TODO: end time and actual time spent._
+**Time:** environment setup, planning and the empty skeleton (Steps 1–4 and the preparation part of Step 5) were prepared beforehand. The 2-hour clock starts right after the skeleton commit (2026-11-08, 19:48 EET) and covers implementation, tests, review and docs. Ended at 21:40, about 1h52m in total.
 
 ---
 
@@ -121,7 +121,7 @@ Route (auth) → FormRequest (validate) → Policy (authorize) → Controller �
 **Storage abstraction in practice:** the app talks to Laravel's `s3` disk, not to a specific vendor. When MinIO stopped publishing binaries, switching to RustFS was a configuration change only. Moving to AWS S3 would be the same.
 
 The full file structure, with the responsibility of each file and the route table, is in [`docs/file-structure.md`](docs/file-structure.md).
-The flow chart is in [`docs/project-flow.canvas`](docs/project-flow.canvas) (Obsidian). _TODO: export it as `docs/assets/project-flow.png` and embed it here, since GitHub cannot display `.canvas` files._
+The flow chart is in [`docs/project-flow.canvas`](docs/project-flow.canvas) (Obsidian). An exported image is shown in Step 2.
 
 ---
 
@@ -178,7 +178,7 @@ Feature tests with **Pest**, on **SQLite in memory**, with `Storage::fake('s3')`
 
 **Trade-off:** SQLite is not PostgreSQL (e.g. `LIKE` case sensitivity, looser types). It keeps the tests fast and runnable right after cloning. In a real project I would run the suite against PostgreSQL in CI.
 
-_TODO: final test count and result._
+**Result:** 77 tests passing: 27 from the starter kit, 50 written by Codex from the spec. GitHub Actions runs them on every push (fixed in `48c0dee`; earlier commits show ❌).
 
 ---
 
@@ -192,7 +192,7 @@ _TODO: final test count and result._
 
 - **Agents do not write code into the project by default.** They present code in small chunks; I review it and add it.
 - **Explicit, scoped permission is the exception.** When it saves time, I allow an agent to write, naming the exact task. The permission does not carry over to the next task.
-- Details, permissions granted, and issues caught in review: [`AI_COLLABORATION.md`](AI_COLLABORATION.md). _TODO: add the issues caught during implementation and Codex's security review._
+- Details, permissions granted, and issues caught in review: [`AI_COLLABORATION.md`](AI_COLLABORATION.md).
 
 ---
 
@@ -206,7 +206,7 @@ _TODO: final test count and result._
 - **Explicit private visibility** on the S3 disk, in addition to the private bucket (anonymous access is verified to return 403).
 - **Virus scanning** of uploads.
 - **CI against PostgreSQL:** GitHub Actions already runs the full suite on every push (SQLite); a PostgreSQL service in CI would close the SQLite/Postgres gap.
-- _TODO: anything unfinished at the 2-hour mark._
+- **All-or-nothing note + files:** if storage fails midway, the note is kept and an error is shown.
 
 ---
 
@@ -309,6 +309,6 @@ Same routine as the skeleton: the agent presents a step, I review it, then I typ
 | 3 | Attachments: request, service, controller, upload form | ✅ real upload/download/delete verified on RustFS |
 | 3b | UX fixes after my own browser check: attach files on the note form, kit placeholders and misleading links removed | ✅ |
 | 4 | Tests green, smoke test on the real stack, Codex security review + 2 fixes | ✅ 77 passed; no high-severity findings |
-| 5 | Docs | _TODO_ |
+| 5 | Docs | ✅ |
 
 **Caught by Codex's tests:** a non-owner sending an *invalid* edit got a validation error instead of 404, because Laravel validates the FormRequest before the controller's policy check. That revealed the note exists. Fixed: the FormRequest now runs the policy before validation. Details in [`AI_COLLABORATION.md`](AI_COLLABORATION.md).
