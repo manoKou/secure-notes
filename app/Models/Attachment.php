@@ -21,15 +21,14 @@ class Attachment extends Model
 
     /**
      * Fields set by AttachmentService when a file is stored.
-     * TODO: disk, path, original_name, mime_type, size
      */
-    protected $fillable = [];
+    protected $fillable = ['disk', 'path', 'original_name', 'mime_type', 'size'];
 
     /**
      * The note this file belongs to (and through it, the owner).
      */
     public function note(): BelongsTo
     {
-        // TODO: an attachment belongs to one note
+        return $this->belongsTo(Note::class);
     }
 }

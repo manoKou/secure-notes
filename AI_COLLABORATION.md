@@ -28,6 +28,8 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | Before the clock | Claude Code | Skeleton Batch 3: `AttachmentService`, `NoteController`, `AttachmentController` (code reviewed first) | Written exactly as reviewed; syntax-checked |
 | Before the clock | Claude Code | Skeleton Batch 4: notes + attachment routes, 5 note views, flash component (code reviewed first) | Written exactly as reviewed; `route:list` shows all 10 routes |
 | Before the clock | Claude Code | Skeleton Batch 5: 4 feature test files with `->todo()` tests from the spec (code reviewed first) | Written exactly as reviewed; Codex replaces the todos |
+| 20:08 (clock) | Claude Code | Step 1: migrations, model relationships + `$fillable`, factories (reviewed first; I had already typed the notes columns myself) | Migrated on PostgreSQL; relationships checked in tinker; 27 passed, 19 todos |
+| 20:17 (clock) | Claude Code | Step 2: `NotePolicy`, `NoteRequest`, `NoteController`, note views, flash, sidebar link (reviewed first) | Views compile; Codex's tests run against it (see issues) |
 | _TODO_ | | | |
 
 ## Issues caught in review
@@ -37,6 +39,7 @@ The rules the agents follow are in [`AGENTS.md`](AGENTS.md).
 | Serving the app as `localhost/secure-notes` through Apache would expose `.env` | Claude Code (I proposed it) | Serve only `public/` via `composer run dev` |
 | Composer installed Livewire 4, but the starter kit needs Livewire 3 (profile page crashed) | Kit tests + manual check | Pinned Livewire to `3.*` |
 | Kit's `package-lock.json` had 13 known vulnerabilities (2 critical) | `npm audit` | `npm audit fix` (non-breaking), 0 left |
+| A non-owner sending an **invalid** update got a validation redirect (302) instead of 404: FormRequest validation runs *before* the controller's policy check, which reveals that the note exists | Codex's test (written from the spec) failed against Claude's step 2 | _pending: authorize in the FormRequest before validating_ |
 | _TODO: issues from implementation, tests and Codex's security review_ | | |
 
 ## Disagreements between agents

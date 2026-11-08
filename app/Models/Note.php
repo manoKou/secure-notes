@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
 /**
  * A private note owned by one user.
  *
@@ -22,16 +21,15 @@ class Note extends Model
     /**
      * Fields a form may set. user_id is deliberately missing:
      * it is always taken from the logged-in user, never from the request.
-     * TODO: title, body
      */
-    protected $fillable = [];
+    protected $fillable = ['title', 'body'];
 
     /**
      * The owner of this note.
      */
     public function user(): BelongsTo
     {
-        // TODO: a note belongs to one user
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -39,6 +37,6 @@ class Note extends Model
      */
     public function attachments(): HasMany
     {
-        // TODO: a note has many attachments
+        return $this->hasMany(Attachment::class);
     }
 }

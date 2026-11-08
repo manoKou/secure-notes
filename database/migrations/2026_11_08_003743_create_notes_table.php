@@ -12,10 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notes', function (Blueprint $table) {
-            // TODO: ulid primary key
-            // TODO: user_id → users, cascade on delete
-            // TODO: title (string), body (text, nullable)
+            $table->ulid('id')->primary();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('title');
+            $table->text('body')->nullable();
             $table->timestamps();
+
+            // "My notes, newest first" is the main query; Postgres doesn't index FKs by itself.
+            $table->index(['user_id', 'created_at']);
         });
     }
 

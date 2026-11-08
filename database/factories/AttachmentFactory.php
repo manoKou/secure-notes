@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Attachment;
+use App\Models\Note;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +20,12 @@ class AttachmentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'note_id' => Note::factory(),
+            'disk' => 's3',
+            'path' => 'notes/'.Str::random(40).'.txt',
+            'original_name' => fake()->word().'.txt',
+            'mime_type' => 'text/plain',
+            'size' => fake()->numberBetween(100, 5000),
         ];
     }
 }

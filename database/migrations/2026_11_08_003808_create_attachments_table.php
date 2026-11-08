@@ -12,9 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attachments', function (Blueprint $table) {
-            // TODO: ulid primary key
-            // TODO: note_id → notes, cascade on delete
-            // TODO: disk, path, original_name, mime_type, size
+            $table->ulid('id')->primary();
+            $table->foreignUlid('note_id')->index()->constrained()->cascadeOnDelete();
+            $table->string('disk');
+            $table->string('path');
+            $table->string('original_name');
+            $table->string('mime_type');
+            $table->unsignedBigInteger('size');
             $table->timestamps();
         });
     }

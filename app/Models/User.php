@@ -66,6 +66,6 @@ class User extends Authenticatable // implements MustVerifyEmail
      */
     public function notes(): HasMany
     {
-        // TODO: a user has many notes
+        return $this->hasMany(Note::class);
     }
 }
