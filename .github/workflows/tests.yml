@@ -22,7 +22,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: 8.3
           tools: composer:v2
           coverage: xdebug
 
@@ -51,4 +51,4 @@ jobs:
         run: npm run build
 
       - name: Run Tests
-        run: ./vendor/bin/phpunit
+        run: ./vendor/bin/pest

@@ -205,7 +205,7 @@ _TODO: final test count and result._
 - **Per-user storage quota** (uploads are rate-limited, but total storage per user is not capped yet).
 - **Explicit private visibility** on the S3 disk, in addition to the private bucket (anonymous access is verified to return 403).
 - **Virus scanning** of uploads.
-- **CI pipeline** running the tests against PostgreSQL.
+- **CI against PostgreSQL:** GitHub Actions already runs the full suite on every push (SQLite); a PostgreSQL service in CI would close the SQLite/Postgres gap.
 - _TODO: anything unfinished at the 2-hour mark._
 
 ---
