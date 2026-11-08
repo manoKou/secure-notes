@@ -20,7 +20,7 @@ class NotePolicy
      */
     public function view(User $user, Note $note): Response
     {
-        // TODO: allow if the user owns the note, otherwise deny as 404
+        return $this->owns($user, $note);
     }
 
     /**
@@ -28,7 +28,7 @@ class NotePolicy
      */
     public function update(User $user, Note $note): Response
     {
-        // TODO: same ownership rule as view()
+        return $this->owns($user, $note);
     }
 
     /**
@@ -36,6 +36,16 @@ class NotePolicy
      */
     public function delete(User $user, Note $note): Response
     {
-        // TODO: same ownership rule as view()
+        return $this->owns($user, $note);
+    }
+
+    /**
+     * Owner → allowed. Anyone else → 404, as if the note didn't exist.
+     */
+    private function owns(User $user, Note $note): Response
+    {
+        return $note->user()->is($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 }

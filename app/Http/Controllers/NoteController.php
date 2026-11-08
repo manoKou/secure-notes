@@ -7,6 +7,7 @@ use App\Models\Note;
 use App\Services\AttachmentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 /**
@@ -31,7 +32,12 @@ class NoteController extends Controller
      */
     public function index(Request $request): View
     {
-        // TODO
+        $notes = $request->user()->notes()
+            ->withCount('attachments')
+            ->latest()
+            ->paginate(20);
+
+        return view('notes.index', compact('notes'));
     }
 
     /**
@@ -39,7 +45,7 @@ class NoteController extends Controller
      */
     public function create(): View
     {
-        // TODO
+        return view('notes.create');
     }
 
     /**
@@ -47,7 +53,9 @@ class NoteController extends Controller
      */
     public function store(NoteRequest $request): RedirectResponse
     {
-        // TODO: create through $request->user()->notes(), redirect with flash
+        $note = $request->user()->notes()->create($request->validated());
+
+        return redirect()->route('notes.show', $note)->with('success', __('Note created.'));
     }
 
     /**
@@ -55,7 +63,10 @@ class NoteController extends Controller
      */
     public function show(Note $note): View
     {
-        // TODO: authorize view, return view
+        Gate::authorize('view', $note);
+        $note->load('attachments');
+
+        return view('notes.show', compact('note'));
     }
 
     /**
@@ -63,7 +74,9 @@ class NoteController extends Controller
      */
     public function edit(Note $note): View
     {
-        // TODO: authorize update, return view
+        Gate::authorize('update', $note);
+
+        return view('notes.edit', compact('note'));
     }
 
     /**
@@ -71,7 +84,10 @@ class NoteController extends Controller
      */
     public function update(NoteRequest $request, Note $note): RedirectResponse
     {
-        // TODO: authorize update, update, redirect with flash
+        Gate::authorize('update', $note);
+        $note->update($request->validated());
+
+        return redirect()->route('notes.show', $note)->with('success', __('Note saved.'));
     }
 
     /**
@@ -79,6 +95,16 @@ class NoteController extends Controller
      */
     public function destroy(Note $note): RedirectResponse
     {
-        // TODO: authorize delete, DB delete in a transaction, then files, redirect
+        Gate::authorize('delete', $note);
+
+        // Load the files first: after the delete, the rows are gone.
+        $note->load('attachments');
+
+        // One DELETE; the database cascades to the attachment rows in the same
+        // statement, so it is atomic. Files are removed only after it succeeded.
+        $note->delete();
+        $this->attachments->deleteAllFor($note);
+
+        return redirect()->route('notes.index')->with('success', __('Note deleted.'));
     }
 }

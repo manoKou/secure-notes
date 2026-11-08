@@ -18,7 +18,7 @@ class NoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // TODO
+        return true;
     }
 
     /**
@@ -28,6 +28,9 @@ class NoteRequest extends FormRequest
      */
     public function rules(): array
     {
-        // TODO: title, body
+        return [
+            'title' => ['required', 'string', 'max:255'],
+            'body' => ['nullable', 'string', 'max:10000'],
+        ];
     }
 }
