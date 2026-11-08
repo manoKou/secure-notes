@@ -1,0 +1,436 @@
+{
+  "nodes": [
+    {
+      "id": "g3",
+      "type": "group",
+      "x": 1180,
+      "y": 0,
+      "width": 380,
+      "height": 460,
+      "label": "Data model (PostgreSQL)",
+      "color": "6"
+    },
+    {
+      "id": "g2",
+      "type": "group",
+      "x": 440,
+      "y": 0,
+      "width": 720,
+      "height": 1130,
+      "label": "Request flow: secure download",
+      "color": "5"
+    },
+    {
+      "id": "g1",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 360,
+      "height": 1490,
+      "label": "Project roadmap",
+      "color": "4"
+    },
+    {
+      "id": "r1",
+      "type": "text",
+      "x": 40,
+      "y": 60,
+      "width": 280,
+      "height": 90,
+      "text": "## 1. Plan & decide\nStack, security, agents\n`bootstrap-process.md`",
+      "color": "4"
+    },
+    {
+      "id": "r2",
+      "type": "text",
+      "x": 40,
+      "y": 190,
+      "width": 280,
+      "height": 90,
+      "text": "## 2. Install dev tools\nComposer · PostgreSQL · RustFS · Node 22",
+      "color": "4"
+    },
+    {
+      "id": "r3",
+      "type": "text",
+      "x": 40,
+      "y": 320,
+      "width": 280,
+      "height": 90,
+      "text": "## 3. Decide file structure\n`docs/file-structure.md`",
+      "color": "4"
+    },
+    {
+      "id": "r4",
+      "type": "text",
+      "x": 40,
+      "y": 450,
+      "width": 280,
+      "height": 90,
+      "text": "## 4. Create Laravel project\nLivewire starter kit + Pest",
+      "color": "3"
+    },
+    {
+      "id": "r5",
+      "type": "text",
+      "x": 40,
+      "y": 580,
+      "width": 280,
+      "height": 90,
+      "text": "## 5. Skeleton app\nEmpty classes & methods"
+    },
+    {
+      "id": "r6",
+      "type": "text",
+      "x": 40,
+      "y": 710,
+      "width": 280,
+      "height": 90,
+      "text": "## 6. Cut into tasks\nSmall, reviewable chunks"
+    },
+    {
+      "id": "r7",
+      "type": "text",
+      "x": 40,
+      "y": 840,
+      "width": 280,
+      "height": 90,
+      "text": "## 7. Implement (Claude Code)\nProposes chunks → **I review**"
+    },
+    {
+      "id": "r8",
+      "type": "text",
+      "x": 40,
+      "y": 970,
+      "width": 280,
+      "height": 90,
+      "text": "## 8. Test & review (Codex)\nTests from spec + security review"
+    },
+    {
+      "id": "r9",
+      "type": "text",
+      "x": 40,
+      "y": 1100,
+      "width": 280,
+      "height": 70,
+      "text": "### Issues found?",
+      "color": "2"
+    },
+    {
+      "id": "r10",
+      "type": "text",
+      "x": 40,
+      "y": 1230,
+      "width": 280,
+      "height": 90,
+      "text": "## 9. Document\nREADME · AI_COLLABORATION.md"
+    },
+    {
+      "id": "r11",
+      "type": "text",
+      "x": 40,
+      "y": 1360,
+      "width": 280,
+      "height": 90,
+      "text": "## 10. Deliver\nPush to Git"
+    },
+    {
+      "id": "f1",
+      "type": "text",
+      "x": 480,
+      "y": 60,
+      "width": 320,
+      "height": 90,
+      "text": "**Browser**\nGET /notes/{note}/attachments/{attachment}"
+    },
+    {
+      "id": "f2",
+      "type": "text",
+      "x": 480,
+      "y": 190,
+      "width": 320,
+      "height": 90,
+      "text": "**auth middleware**\nLogged in?"
+    },
+    {
+      "id": "f3",
+      "type": "text",
+      "x": 480,
+      "y": 320,
+      "width": 320,
+      "height": 90,
+      "text": "**Scoped route binding**\nULIDs exist & attachment belongs to note?"
+    },
+    {
+      "id": "f4",
+      "type": "text",
+      "x": 480,
+      "y": 450,
+      "width": 320,
+      "height": 90,
+      "text": "**NotePolicy@view**\nIs this my note?"
+    },
+    {
+      "id": "f5",
+      "type": "text",
+      "x": 480,
+      "y": 580,
+      "width": 320,
+      "height": 90,
+      "text": "**AttachmentController@download**"
+    },
+    {
+      "id": "f6",
+      "type": "text",
+      "x": 480,
+      "y": 710,
+      "width": 320,
+      "height": 90,
+      "text": "**AttachmentService**\nreads file via `s3` disk"
+    },
+    {
+      "id": "f7",
+      "type": "text",
+      "x": 480,
+      "y": 840,
+      "width": 320,
+      "height": 90,
+      "text": "**RustFS** (private bucket)\n`secure-notes`",
+      "color": "5"
+    },
+    {
+      "id": "f8",
+      "type": "text",
+      "x": 480,
+      "y": 970,
+      "width": 320,
+      "height": 100,
+      "text": "**Response**\nstreamed download\n`Content-Disposition: attachment`\n`X-Content-Type-Options: nosniff`",
+      "color": "4"
+    },
+    {
+      "id": "x1",
+      "type": "text",
+      "x": 880,
+      "y": 190,
+      "width": 220,
+      "height": 60,
+      "text": "↪ redirect to /login",
+      "color": "1"
+    },
+    {
+      "id": "x2",
+      "type": "text",
+      "x": 880,
+      "y": 385.0,
+      "width": 220,
+      "height": 80,
+      "text": "**404 Not Found**\n(never reveal that it exists)",
+      "color": "1"
+    },
+    {
+      "id": "d1",
+      "type": "text",
+      "x": 1220,
+      "y": 60,
+      "width": 300,
+      "height": 90,
+      "text": "**users**\nid · name · email · password"
+    },
+    {
+      "id": "d2",
+      "type": "text",
+      "x": 1220,
+      "y": 210,
+      "width": 300,
+      "height": 90,
+      "text": "**notes**\nid (ULID) · user_id · title · body"
+    },
+    {
+      "id": "d3",
+      "type": "text",
+      "x": 1220,
+      "y": 360,
+      "width": 300,
+      "height": 110,
+      "text": "**attachments**\nid (ULID) · note_id · disk · path\noriginal_name · mime_type · size"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-r1-r2",
+      "fromNode": "r1",
+      "fromSide": "bottom",
+      "toNode": "r2",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r2-r3",
+      "fromNode": "r2",
+      "fromSide": "bottom",
+      "toNode": "r3",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r3-r4",
+      "fromNode": "r3",
+      "fromSide": "bottom",
+      "toNode": "r4",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r4-r5",
+      "fromNode": "r4",
+      "fromSide": "bottom",
+      "toNode": "r5",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r5-r6",
+      "fromNode": "r5",
+      "fromSide": "bottom",
+      "toNode": "r6",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r6-r7",
+      "fromNode": "r6",
+      "fromSide": "bottom",
+      "toNode": "r7",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r7-r8",
+      "fromNode": "r7",
+      "fromSide": "bottom",
+      "toNode": "r8",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r8-r9",
+      "fromNode": "r8",
+      "fromSide": "bottom",
+      "toNode": "r9",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r9-r10",
+      "fromNode": "r9",
+      "fromSide": "bottom",
+      "toNode": "r10",
+      "toSide": "top",
+      "label": "no"
+    },
+    {
+      "id": "e-r10-r11",
+      "fromNode": "r10",
+      "fromSide": "bottom",
+      "toNode": "r11",
+      "toSide": "top"
+    },
+    {
+      "id": "e-r9-r7",
+      "fromNode": "r9",
+      "fromSide": "right",
+      "toNode": "r7",
+      "toSide": "right",
+      "label": "yes → fix",
+      "color": "1"
+    },
+    {
+      "id": "e-f1-f2",
+      "fromNode": "f1",
+      "fromSide": "bottom",
+      "toNode": "f2",
+      "toSide": "top"
+    },
+    {
+      "id": "e-f2-f3",
+      "fromNode": "f2",
+      "fromSide": "bottom",
+      "toNode": "f3",
+      "toSide": "top",
+      "label": "yes"
+    },
+    {
+      "id": "e-f3-f4",
+      "fromNode": "f3",
+      "fromSide": "bottom",
+      "toNode": "f4",
+      "toSide": "top",
+      "label": "yes"
+    },
+    {
+      "id": "e-f4-f5",
+      "fromNode": "f4",
+      "fromSide": "bottom",
+      "toNode": "f5",
+      "toSide": "top",
+      "label": "yes"
+    },
+    {
+      "id": "e-f5-f6",
+      "fromNode": "f5",
+      "fromSide": "bottom",
+      "toNode": "f6",
+      "toSide": "top"
+    },
+    {
+      "id": "e-f6-f7",
+      "fromNode": "f6",
+      "fromSide": "bottom",
+      "toNode": "f7",
+      "toSide": "top"
+    },
+    {
+      "id": "e-f7-f8",
+      "fromNode": "f7",
+      "fromSide": "bottom",
+      "toNode": "f8",
+      "toSide": "top"
+    },
+    {
+      "id": "e-f2-x1",
+      "fromNode": "f2",
+      "fromSide": "right",
+      "toNode": "x1",
+      "toSide": "left",
+      "label": "no",
+      "color": "1"
+    },
+    {
+      "id": "e-f3-x2",
+      "fromNode": "f3",
+      "fromSide": "right",
+      "toNode": "x2",
+      "toSide": "left",
+      "label": "no",
+      "color": "1"
+    },
+    {
+      "id": "e-f4-x2",
+      "fromNode": "f4",
+      "fromSide": "right",
+      "toNode": "x2",
+      "toSide": "left",
+      "label": "no",
+      "color": "1"
+    },
+    {
+      "id": "e-d1-d2",
+      "fromNode": "d1",
+      "fromSide": "bottom",
+      "toNode": "d2",
+      "toSide": "top",
+      "label": "1 → many (cascade delete)"
+    },
+    {
+      "id": "e-d2-d3",
+      "fromNode": "d2",
+      "fromSide": "bottom",
+      "toNode": "d3",
+      "toSide": "top",
+      "label": "1 → many (cascade delete)"
+    }
+  ]
+}
